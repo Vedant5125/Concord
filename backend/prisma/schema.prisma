@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Producer {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  contracts Contract[]
+  createdAt DateTime   @default(now())
+}
+
+model Consumer {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  contracts Contract[]
+  createdAt DateTime   @default(now())
+}
+
+model Contract {
+  id            Int            @id @default(autoincrement())
+  consumerId    Int
+  producerId    Int
+  isActive      Boolean        @default(true)
+  consumer      Consumer       @relation(fields: [consumerId], references: [id])
+  producer      Producer       @relation(fields: [producerId], references: [id])
+  interactions  Interaction[]
+  verifications Verification[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Interaction {
+  id           Int      @id @default(autoincrement())
+  contractId   Int
+  method       String
+  path         String
+  pathParams   Json?
+  requestBody  Json?
+  statusCode   Int
+  responseBody Json
+  contract     Contract @relation(fields: [contractId], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+model Verification {
+  id           Int      @id @default(autoincrement())
+  contractId   Int
+  passed       Boolean
+  errorDetails Json?
+  baseUrlUsed  String
+  contract     Contract @relation(fields: [contractId], references: [id])
+  ranAt        DateTime @default(now())
+}
