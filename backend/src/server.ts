@@ -4,6 +4,7 @@ import publishContract from "./controller/publish.js";
 import listContracts from "./controller/listContracts.js";
 import interactionList from "./controller/listInteractions.js";
 import mockServer  from "./controller/mockServer.js"
+import verifyInteractions from "./controller/verification.js"
 import "dotenv/config";
 
 const app = express();
@@ -14,6 +15,7 @@ app.post("/api/publish", publishContract);
 app.get("/api/listContracts", listContracts);
 app.get("/api/listInteractions", interactionList);
 app.post("/api/mockServer",mockServer);
+app.post("/api/verifyInteractions", verifyInteractions);
 
 app.listen(3000, () => console.log('Concord backend running on port 3000'));
 
