@@ -17,7 +17,9 @@ const contractList = async (req:any, res:any) =>{
                 ...checker
             },
             include:{
-                interactions:true
+                interactions:true,
+                producer:true,
+                consumer:true
             }
         })
 

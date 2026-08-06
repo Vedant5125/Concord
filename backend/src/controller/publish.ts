@@ -1,6 +1,6 @@
 import { prisma } from "../db.js";
 
-const publishContract = async(req:any,res:any):Promise<void> =>{
+const publishContract = async(req:any,res:any) =>{
     const {Pname, Cname,Interactions} = req.body;
     if(
         [Pname, Cname].some((fields)=>fields.trim() ==="")

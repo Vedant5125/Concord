@@ -1,4 +1,3 @@
-import { log } from "node:console";
 import {prisma} from "../db.js"
 
 const interactionList = async (req:any , res:any) =>{
