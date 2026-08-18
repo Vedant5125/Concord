@@ -11,18 +11,35 @@ datasource db {
   provider = "postgresql"
 }
 
-model Producer {
+model Organization {
   id        Int        @id @default(autoincrement())
+  apiKey    String     @unique
   name      String     @unique
-  contracts Contract[]
+  producers Producer[]
+  consumers Consumer[]
   createdAt DateTime   @default(now())
 }
 
+model Producer {
+  id             Int        @id @default(autoincrement())
+  name           String
+  contracts      Contract[]
+  organizationId Int
+  organization Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime   @default(now())
+
+  @@unique([name, organizationId])
+}
+
 model Consumer {
-  id        Int        @id @default(autoincrement())
-  name      String     @unique
-  contracts Contract[]
-  createdAt DateTime   @default(now())
+  id             Int        @id @default(autoincrement())
+  name           String
+  contracts      Contract[]
+  organizationId Int
+  organization Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime   @default(now())
+
+  @@unique([name, organizationId])
 }
 
 model Contract {
