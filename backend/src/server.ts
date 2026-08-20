@@ -5,12 +5,16 @@ import listContracts from "./controller/listContracts.js";
 import interactionList from "./controller/listInteractions.js";
 import mockServer  from "./controller/mockServer.js"
 import verifyInteractions from "./controller/verification.js"
+import addOrganization from "./controller/organization.js";
+import authMiddleware from "./middleware/auth.middleware.js"
 import "dotenv/config";
 
 const app = express();
 
 app.use(express.json({limit:"1mb"}));
 
+app.post("/api/addOrganization", addOrganization);
+app.use(authMiddleware);
 app.post("/api/publish", publishContract);
 app.get("/api/listContracts", listContracts);
 app.get("/api/listInteractions", interactionList);
