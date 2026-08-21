@@ -20,7 +20,7 @@ const authMiddleWare = async (req: any, res: any, next: any) => {
             return;
         }
 
-        req.Org = findOrg;
+        req.organization = findOrg;
         next();
         
     } catch (error) {
