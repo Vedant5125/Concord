@@ -14,18 +14,20 @@ const publishContract = async(req:any,res:any) =>{
         return;
     }
 
+    const organizationData = req?.organization; 
+
     try {
 
         const P_info = await prisma.producer.upsert({
-            where:{name : Pname},
+            where:{name_organizationId: {name: Pname, organizationId: organizationData.id}},
             update:{},
-            create:{name: Pname}
+            create:{name: Pname, organizationId: organizationData.id}
             
         })
         const C_info = await prisma.consumer.upsert({
-            where:{name : Cname},
+            where:{name_organizationId: {name: Cname, organizationId: organizationData.id}},
             update:{},
-            create:{name: Cname}
+            create:{name: Cname, organizationId: organizationData.id}
             
         })
 

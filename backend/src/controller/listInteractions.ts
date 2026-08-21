@@ -8,8 +8,15 @@ const interactionList = async (req:any , res:any) =>{
     }
 
     try {
-        const list = await prisma.interaction.findUnique({
-            where:{id:interaction_id}
+        const list = await prisma.interaction.findFirst({
+            where:{
+                id:interaction_id, 
+                contract:{
+                    producer:{ organizationId: req.organization.id },
+                    consumer:{ organizationId: req.organization.id }
+                }
+            }
+            
         })
         if (!list) {
             return res.status(404).json({ error: "Interaction not found" });

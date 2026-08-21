@@ -11,8 +11,12 @@ const verifyInteractions = async (req: any, res: any) => {
   }
 
   try {
-    const contract = await prisma.contract.findUnique({
-      where: { id: contractId },
+    const contract = await prisma.contract.findFirst({
+      where: {
+        id: contractId,
+        producer: { organizationId: req.organization.id },
+        consumer: { organizationId: req.organization.id }
+      },
       include: { interactions: true }
     });
 
@@ -48,7 +52,9 @@ const verifyInteractions = async (req: any, res: any) => {
           if (!(key in backend_data)) {
             errorCaught.push(`Missing Key: ${key}`);
           } else if (typeof backend_data[key] !== db_data[key]) {
-            errorCaught.push(`Type mismatch on ${key}: Expected ${db_data[key]} , got ${typeof backend_data[key]}`);
+            errorCaught.push(
+              `Type mismatch on ${key}: Expected ${db_data[key]} , got ${typeof backend_data[key]}`
+            );
           }
         }
 
@@ -75,10 +81,8 @@ const verifyInteractions = async (req: any, res: any) => {
       }
 
       resArray.push({ interactionId: e.id, passed, errorCaught });
-  
     }
     res.status(200).json({ results: resArray });
-
   } catch (error) {
     res.status(500).json({ message: "Error verifying interactions" });
   }
