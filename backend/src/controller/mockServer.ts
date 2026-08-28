@@ -1,5 +1,6 @@
 import express from "express";
 import { prisma } from "../db.js";
+import { isPortInMap, newPortRegister } from "./mockServerRegistry.js";
 
 const mockServer = async (req: any, res: any) => {
   const { id, port } = req.query;
@@ -10,6 +11,10 @@ const mockServer = async (req: any, res: any) => {
   if (!id || isNaN(contract_Id)) {
     return res.status(400).json({ message: "valid contract id is required" });
   }
+
+    if (isPortInMap(mockPort)) {
+      return res.status(409).json({ message: `Port ${mockPort} is already running a mock server.` });
+    }   
 
   try {
     const existContract = await prisma.contract.findFirst({
@@ -45,13 +50,14 @@ const mockServer = async (req: any, res: any) => {
     });
 
     const server = mockApp.listen(mockPort, () => {
+      newPortRegister(mockPort, server); 
       console.log(`mockServer running on port ${mockPort}`);
       res
         .status(200)
         .json({ message: `Mock server started on Port: ${mockPort}` });
     });
 
-    // this is dont to give hidden error that happend when two servers try to use same port and the second server fails silently
+    // this is done to give hidden error that happend when two servers try to use same port and the second server fails silently
     server.on("error", (err: any) => {
       if (err.code === "EADDRINUSE") {
         console.error(`Port ${mockPort} is already in use`);
@@ -65,7 +71,7 @@ const mockServer = async (req: any, res: any) => {
       }
     });
   } catch (error) {
-    res.status(500).json("Error starting mock server");
+    res.status(500).json({ message: "Error starting mock server" });
   }
 };
 
