@@ -4,6 +4,7 @@ import publishCommand from './commands/publish.js';
 import { contractListCommand, interactionListCommand } from './commands/list.js';
 import mockServerCommand from './commands/mockServer.js';
 import verifyCommand from './commands/verify.js';
+import { organizationAddCommand } from './commands/organization.js';
 
 const program = new Command();
 
@@ -12,7 +13,7 @@ program
   .description("API contract testing and mock server CLI")
   .version("1.0.0");
 
-
+organizationAddCommand(program);
 publishCommand(program);
 contractListCommand(program);
 interactionListCommand(program);
