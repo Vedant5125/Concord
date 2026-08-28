@@ -1,5 +1,4 @@
 import express from "express";
-import { prisma } from "./db.js";
 import publishContract from "./controller/publish.js"; 
 import listContracts from "./controller/listContracts.js";
 import interactionList from "./controller/listInteractions.js";
