@@ -17,7 +17,8 @@ function mockServerCommand(program: Command) {
         }
         const payload = { id, port };
 
-        const result = await apiClient.post("/api/mockServer", null, { params: payload });
+        // const result = await apiClient.post("/api/mockServer", null, { params: payload });
+        const result = await apiClient.post("/api/mockServer", payload);
         if(!result || ! result.data) {
           console.error("Error running mock server");
           return
