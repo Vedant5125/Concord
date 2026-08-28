@@ -3,7 +3,8 @@ import { prisma } from "../db.js";
 import { isPortInMap, newPortRegister } from "./mockServerRegistry.js";
 
 const mockServer = async (req: any, res: any) => {
-  const { id, port } = req.query;
+  // const { id, port } = req.query;
+  const { id, port } = req.body;
   // taking port from user as if the user want to start a different or same contract again they cant run on same port and will give error so user should mention different ports if not done error is returned
   const contract_Id = Number(id);
   const mockPort = Number(port) || 4000;

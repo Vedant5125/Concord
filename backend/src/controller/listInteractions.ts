@@ -26,7 +26,7 @@ const interactionList = async (req:any , res:any) =>{
     } catch (error) {
         console.log(error);
         
-        res.status(500).json("Error fetching interaction list")
+        res.status(500).json({message:"Error fetching interaction list"})
     }
 }
 

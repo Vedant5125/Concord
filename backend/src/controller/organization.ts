@@ -2,7 +2,8 @@ import { prisma } from "../db.js";
 import crypto from "crypto";
 
 const addOrganization = async (req: any, res: any) => {
-  const { orgName } = req.query;
+  // const { orgName } = req.query;
+  const { orgName } = req.body;
 
   try {
     if (!orgName) {

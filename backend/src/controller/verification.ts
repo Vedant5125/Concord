@@ -2,7 +2,8 @@ import { prisma } from "../db.js";
 import axios from "axios";
 
 const verifyInteractions = async (req: any, res: any) => {
-  const { id, baseUrl } = req.query;
+  // const { id, baseUrl } = req.query;
+  const { id, baseUrl } = req.body;
   const contractId = Number(id);
 
   const resArray = [];
